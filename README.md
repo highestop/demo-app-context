@@ -1,4 +1,4 @@
-# demo-app-lifecycle
+# lifecycle
 
 - [x] implement first version of app with contexts, hooks, services and entries.
 - [x] some demos with some description using exported app.
