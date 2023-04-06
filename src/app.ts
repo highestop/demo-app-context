@@ -1,4 +1,4 @@
-import { IContext, createContext, IContextValueType } from "./context";
+import { IContext, createContext, IContextValueType } from './context';
 
 export class App {
     static declareContext = <AppContext extends { [key: string]: IContext }>(
@@ -16,11 +16,13 @@ export class App {
             } = {} as any;
             Object.keys(ctxs).forEach((ctxKey: keyof AppContext) => {
                 ctxToHooks[ctxKey] = new Set();
-                Object.keys(hookConfigs).forEach((hookKey: keyof AppHookConfig) => {
-                    if (hookConfigs[hookKey].indexOf(ctxKey) !== -1) {
-                        ctxToHooks[ctxKey].add(hookKey);
+                Object.keys(hookConfigs).forEach(
+                    (hookKey: keyof AppHookConfig) => {
+                        if (hookConfigs[hookKey].indexOf(ctxKey) !== -1) {
+                            ctxToHooks[ctxKey].add(hookKey);
+                        }
                     }
-                });
+                );
             });
             //
             const registerService = (
@@ -46,10 +48,14 @@ export class App {
                     entryConfigs: AppEntyConfig
                 ) => {
                     const trigger =
-                        (entryKey: keyof AppEntyConfig, triggered: () => void) =>
-                            (hookKey: keyof AppHookConfig) => {
-                                triggered();
-                                const hookDeps = hookConfigs[hookKey].reduce((deps, ctxKey) => {
+                        (
+                            entryKey: keyof AppEntyConfig,
+                            triggered: () => void
+                        ) =>
+                        (hookKey: keyof AppHookConfig) => {
+                            triggered();
+                            const hookDeps = hookConfigs[hookKey].reduce(
+                                (deps, ctxKey) => {
                                     const ctx = ctxs[ctxKey].get();
                                     if (ctx == null) {
                                         throw Error(
@@ -58,18 +64,28 @@ export class App {
                                     }
                                     deps[ctxKey] = ctx;
                                     return deps;
-                                }, {} as any);
-                                services.forEach((service) => service[hookKey]?.(hookDeps));
-                            };
+                                },
+                                {} as any
+                            );
+                            services.forEach((service) =>
+                                service[hookKey]?.(hookDeps)
+                            );
+                        };
                     const entries: {
                         [entryKey in keyof AppEntyConfig]: (
-                            ...args: Parameters<ReturnType<AppEntyConfig[entryKey]>>
+                            ...args: Parameters<
+                                ReturnType<AppEntyConfig[entryKey]>
+                            >
                         ) => void;
                     } = {} as any;
                     Object.keys(entryConfigs).forEach(
-                        <entryKey extends keyof AppEntyConfig>(entryKey: entryKey) => {
+                        <entryKey extends keyof AppEntyConfig>(
+                            entryKey: entryKey
+                        ) => {
                             entries[entryKey] = (
-                                ...args: Parameters<ReturnType<AppEntyConfig[entryKey]>>
+                                ...args: Parameters<
+                                    ReturnType<AppEntyConfig[entryKey]>
+                                >
                             ) => {
                                 // let triggered = false;
                                 entryConfigs[entryKey](

@@ -1,4 +1,4 @@
-import { App } from "./lifecycle";
+import { App } from './app';
 
 interface UserInfo {
     userId: string;
