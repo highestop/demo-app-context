@@ -1,5 +1,5 @@
 {
-    "name": "demo-app-lifecycle",
+    "name": "demo-app-context",
     "version": "1.0.0",
     "dependencies": {
         "observable-hooks": "^4.2.1",
